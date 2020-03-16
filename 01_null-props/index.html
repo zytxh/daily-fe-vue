@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="app">
+      <!-- 传递null时，认为是传递值，不走default，并且通过类型校验（因为报TypeError） -->
+      <list :items="null"></list> 
+      <!-- 传递undefined值，认为没有传值, 走default -->
+      <!-- <list :items="undefined"></list>  -->
+    </div>
+  </body>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script type="module">
+    Vue.component('list', {
+      template: `<div>{{ typeof items }} {{ items.join(',') }}</div>`,
+      props: {
+        items: {
+          type: Array,
+          // default() {
+          //   return [1, 2, 3];
+          // },
+          required: true, // 传递 null/undefined 时通过required校验，但是由于没有默认值，类型校验失败(Invalid prop)
+        },
+      },
+    });
+    new Vue({
+      el: '#app',
+    });
+  </script>
+</html>
